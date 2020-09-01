@@ -1,9 +1,8 @@
 package edu.emory.cs.utils;
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 public class UtilsTest {
-
-    import org.junit.Test;
-import static org.junit.Assert.assertEquals;
 
     @Test
     public void getMiddleIndexTest() {
