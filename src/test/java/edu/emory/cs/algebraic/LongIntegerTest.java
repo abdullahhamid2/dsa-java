@@ -8,16 +8,11 @@ import static org.junit.Assert.assertTrue;
 public class LongIntegerTest {
     @Test
     public void testConstructors() {
-        // default constructor
         assertEquals("0", new LongInteger().toString());
-
-        // constructor with a string parameter
         assertEquals("12", new LongInteger("12").toString());
         assertEquals("34", new LongInteger("+34").toString());
         assertEquals("-56", new LongInteger("-56").toString());
         assertEquals("-0", new LongInteger("-0").toString());
-
-        // copy constructor
         assertEquals("12", new LongInteger(new LongInteger("12")).toString());
         assertEquals("-34", new LongInteger(new LongInteger("-34")).toString());
     }
