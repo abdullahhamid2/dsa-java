@@ -16,18 +16,16 @@ public class LongInteger extends SignedNumeral<LongInteger> implements Comparabl
         set(n);
     }
     public void set(String n) {
-        // 'n' must not be null
+
         if (n == null)
             throw new NullPointerException();
 
-        // set this.sign
         sign = switch (n.charAt(0)) {
             case '-' -> { n = n.substring(1); yield Sign.NEGATIVE; }
             case '+' -> { n = n.substring(1); yield Sign.POSITIVE; }
             default -> Sign.POSITIVE;
         };
 
-        // set this.digits
         digits = new byte[n.length()];
 
         for (int i = 0, j = n.length() - 1; i < n.length(); i++, j--) {
@@ -48,12 +46,10 @@ public class LongInteger extends SignedNumeral<LongInteger> implements Comparabl
             addDifferentSign(n);
     }
     protected void addSameSign(LongInteger n) {
-        // copy this integer to result[]
         int m = Math.max(digits.length, n.digits.length);
         byte[] result = new byte[m + 1];
         System.arraycopy(digits, 0, result, 0, digits.length);
 
-        // add n to result
         for (int i = 0; i < n.digits.length; i++) {
             result[i] += n.digits[i];
             if (result[i] >= 10) {
@@ -62,7 +58,6 @@ public class LongInteger extends SignedNumeral<LongInteger> implements Comparabl
             }
         }
 
-        // set this.digits
         digits = result[m] == 0 ? Arrays.copyOf(result, m) : result;
     }
 
@@ -72,10 +67,9 @@ public class LongInteger extends SignedNumeral<LongInteger> implements Comparabl
 
     @Override
     public void multiply(LongInteger n) {
-        // set this.sign
+
         sign = (sign == n.sign) ? Sign.POSITIVE : Sign.NEGATIVE;
 
-        // multiply this and n and save it to result
         byte[] result = new byte[digits.length + n.digits.length];
         for (int i = 0; i < digits.length; i++) {
             for (int j = 0; j < n.digits.length; j++) {
@@ -86,7 +80,6 @@ public class LongInteger extends SignedNumeral<LongInteger> implements Comparabl
             }
         }
 
-        // set this.digits
         int m; for (m = result.length - 1; m > 0; m--)
             if (result[m] != 0) break;
         digits = ++m < result.length ? Arrays.copyOf(result, m) : result;

@@ -1,6 +1,5 @@
 package edu.emory.cs.algebraic;
 
-/** @author Jinho D. Choi */
 public enum Sign {
     POSITIVE('+'),
     NEGATIVE('-');
