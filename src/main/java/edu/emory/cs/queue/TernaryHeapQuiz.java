@@ -15,7 +15,7 @@ public class TernaryHeapQuiz<T extends Comparable<T>> extends AbstractPriorityQu
     public TernaryHeapQuiz(Comparator<T> priority) {
         super(priority);
         keys = new ArrayList<>();
-        //keys.add(null);
+        keys.add(null);
     }
     private int compare(int i1, int i2) {
         return priority.compare(keys.get(i1), keys.get(i2));
@@ -26,61 +26,82 @@ public class TernaryHeapQuiz<T extends Comparable<T>> extends AbstractPriorityQu
         keys.add(key);
         swim(size());
     }
-    private void swim(int k) // intended to identify parent method and swap if child is bigger than parent
+//    private void swim(int k) // intended to identify parent method and swap if child is bigger than parent
+//    {
+//        while (1 < k && compare(((k-1)/3), (k)) < 0)
+//        {
+//            Collections.swap(keys, (k-1)/3, k);
+//            k -= 1; k /= 3;
+//        }
+//    }
+    private void swim(int k){
+            if(k%3==0) //center node
     {
-        while (1 < k && compare(((k-1)/3), (k)) < 0)
-        {
-            Collections.swap(keys, (k-1)/3, k);
-            k -= 1; k /= 3;
+        for (;1<=k ; k=k/3){
+            int parentIndex = k/3;
+            int childIndex = k;
+            if(parentIndex < 1) parentIndex = 1;
+
+            if(compare(parentIndex, childIndex) < 0) {
+                Collections.swap(keys, parentIndex, childIndex);
+            }
         }
     }
-//    private void swim(int k){
-//    if((k-1)%3==0 || k%3==0) //center or right node
-//    {
-//        for (; 1<k && compare((k-1)/3, k) < 0; k=(k-1)/3){
-//            Collections.swap(keys, (k-1)/3, k);
-//        }
-//    }
-//    else if((k+1) % 3==0) {
-//        for(; 1<k && compare((k+1)/3, k) < 0; k=(k+1)/3){
-//            Collections.swap(keys, (k+1)/3, k);
-//        }
-//    }
-//
-//    }
+    else if((k-1)%3==0) //right node
+        {
+            for (; 1<k; k=(k-1)/3){
+                int parentIndex = (k-1)/3;
+                int childIndex = k;
+                if(parentIndex < 1) parentIndex = 1;
+                if(compare(parentIndex, childIndex) < 0) {
+                    Collections.swap(keys, parentIndex, childIndex);
+                }
+            }
+        }
+    else if((k+1) % 3==0) { //left node
+        for(; 1<k; k=(k+1)/3){
+            int parentIndex = (k+1)/3;
+            int childIndex = k;
+            if(parentIndex < 1) parentIndex = 1;
+            if(compare(parentIndex, childIndex) < 0) {
+                Collections.swap(keys, parentIndex, childIndex);
+            }
+        }
+    }
+    }
 
     @Override
     public T remove() {
         if (isEmpty()) return null;
         Collections.swap(keys, 1, size());
         T max = keys.remove(size());
-        sink(size());
+        sink();
         return max;
     }
-    private void sink(int k) // not sure if I got this right... intended to compare keys with 2 other children
-    {
-        for (int i=k*3; i<=size(); k=i,i*=3)
-        {
-            if (i < size() && compare((i), (i+1)) < 0 && compare((i),(i+2)) < 0) i++;
-            if (compare((k),(i)) >= 0) {
-                break;
-            }
-            Collections.swap(keys, k, i);
-        }
-    }
-//    private void sink(){
-//        for (int k = 1, i=3; i<size()-1; k=i,i*=3) {
-//            if (i < size() && compare((i), (i + 1)) < 0 && compare((i), (i + 2)) < 0) i++;
-//            if (compare((k), (i)) >= 0) {
+//    private void sink(int k)
+//    {
+//        for (int i=k/3; i<=size(); k=i,i*=3)
+//        {
+//            if (i < size() && compare((i), (i+1)) < 0 && compare((i),(i+2)) < 0) i++;
+//            if (compare((k),(i)) >= 0) {
 //                break;
 //            }
 //            Collections.swap(keys, k, i);
 //        }
 //    }
+    private void sink(){
+        for (int k = 1, i=3; i<size()-1; k=i,i*=3) {
+            if (i < size() && compare((i), (i + 1)) < 0 && compare((i), (i + 2)) < 0) i++;
+            if (compare((k), (i)) >= 0) {
+                break;
+            }
+            Collections.swap(keys, k, i);
+        }
+    }
 
     @Override
     public int size() {
         // TODO: to be updated
-        return keys.size() -1;
+        return keys.size()-1;
     }
 }
