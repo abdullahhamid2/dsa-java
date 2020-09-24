@@ -91,7 +91,7 @@ public class TernaryHeapQuiz<T extends Comparable<T>> extends AbstractPriorityQu
 //    }
     private void sink(){
         for (int k = 1, i=3; i<size()-1; k=i,i*=3) {
-            if (i < size() && compare((i), (i + 1)) < 0 && compare((i), (i + 2)) < 0) i++;
+            if (i <= size()-1 && compare((i), (i + 1)) < 0 && compare((i), (i + 2)) < 0) i++;
             if (compare((k), (i)) >= 0) {
                 break;
             }

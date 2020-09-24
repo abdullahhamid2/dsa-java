@@ -4,7 +4,6 @@ import org.junit.Test;
 
 import java.util.Comparator;
 import java.util.List;
-
 public class TernaryHeapQuizTest extends PriorityQueueTest {
     @Test
     public void testRobustness() {
@@ -18,6 +17,7 @@ public class TernaryHeapQuizTest extends PriorityQueueTest {
 
     @Test
     public void testRuntime() {
+
         testRuntime(new BinaryHeap<>(), new TernaryHeapQuiz<>());
     }
 }
