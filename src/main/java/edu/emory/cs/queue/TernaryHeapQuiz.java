@@ -8,6 +8,7 @@ import java.util.List;
 public class TernaryHeapQuiz<T extends Comparable<T>> extends AbstractPriorityQueue<T> {
     private final List<T> keys;
 
+
     public TernaryHeapQuiz() {
         this(Comparator.naturalOrder());
     }
