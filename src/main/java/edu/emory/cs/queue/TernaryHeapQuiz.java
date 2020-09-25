@@ -90,12 +90,25 @@ public class TernaryHeapQuiz<T extends Comparable<T>> extends AbstractPriorityQu
 //        }
 //    }
     private void sink(){
-        for (int k = 1, i=3; i<size()-1; k=i,i*=3) {
-            if (i <= size()-1 && compare((i), (i + 1)) < 0 && compare((i), (i + 2)) < 0) i++;
-            if (compare((k), (i)) >= 0) {
+                for (int k = 1, i = 2; i <= size()-1;k=i,i*=3) {
+                    int Max = i;
+                    if((i+1)<=size() && compare((i), (i+1)) < 0) {
+                        if ((i+2)<=size() && compare((i + 1), i + 2) < 0) {
+                            Max = i + 2;
+                        } else {
+                            Max = i + 1;
+                        }
+                    }
+                    else if((i+2)<=size() && compare((i), (i+2)) < 0){
+                            Max = i + 2;
+                        }
+                        else{
+                            Max = i;
+                        }
+            if (compare((k), (Max)) >= 0) {
                 break;
             }
-            Collections.swap(keys, k, i);
+            Collections.swap(keys, k, Max);
         }
     }
 
