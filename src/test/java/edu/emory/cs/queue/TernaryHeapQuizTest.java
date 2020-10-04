@@ -12,7 +12,7 @@ public class TernaryHeapQuizTest extends PriorityQueueTest {
         Comparator<Integer> reverse = Comparator.reverseOrder();
 
         testRobustness(new TernaryHeapQuiz<>(), keys, reverse);
-        testRobustness(new TernaryHeapQuiz<>(reverse), keys, natural);
+       testRobustness(new TernaryHeapQuiz<>(reverse), keys, natural);
     }
 
     @Test

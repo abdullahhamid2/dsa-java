@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+/** @author Jinho D. Choi */
 public class BinaryHeap<T extends Comparable<T>> extends AbstractPriorityQueue<T> {
     private final List<T> keys;
 
