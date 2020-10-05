@@ -1,4 +1,5 @@
 package edu.emory.cs.sort.distribution;
+
 public class LSDRadixSort extends RadixSort {
     @Override
     public void sort(Integer[] array, int beginIndex, int endIndex) {
