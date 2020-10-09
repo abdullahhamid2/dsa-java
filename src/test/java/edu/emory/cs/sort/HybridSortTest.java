@@ -2,6 +2,7 @@ package edu.emory.cs.sort;
 
 import edu.emory.cs.sort.hybrid.HybridSort;
 import edu.emory.cs.sort.hybrid.HybridSortBaseline;
+import edu.emory.cs.sort.hybrid.HybridSortHW;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -10,13 +11,17 @@ import java.util.Random;
 import java.util.StringJoiner;
 
 import static org.junit.Assert.assertArrayEquals;
+
+/**
+ * @author Jinho D. Choi ({@code jinho.choi@emory.edu})
+ */
 public class HybridSortTest {
     private final Random rand = new Random();
 
     @Test
     public void testRobustness() {
         HybridSort<Integer> gold = new HybridSortBaseline<>();
-        HybridSort<Integer> mine = new HybridSortBaseline<>();  // TODO: replace with your class
+        HybridSort<Integer> mine = new HybridSortHW<>();  // TODO: replace with your class
 
         Integer[][] input = {{0, 1, 2, 3}, {7, 6, 5, 4}, {0, 3, 1, 2}, {4, 7, 6, 5}, {9, 8, 11, 10}};
         testRobustness(input, gold, mine);
@@ -37,9 +42,9 @@ public class HybridSortTest {
     @SuppressWarnings("unchecked")
     public void testSpeed() {
         HybridSort<Integer> gold = new HybridSortBaseline<>();
-        HybridSort<Integer> mine = new HybridSortBaseline<>();  // TODO: replace with your class
+        HybridSort<Integer> mine = new HybridSortHW<>();  // TODO: replace with your class
         double ratio = 0.25;
-        int row = 100, col;
+        int row = 100, col = 100;
 
         for (col = 100; col <= 1000; col += 100) {    // for (row = 100; row <= 1000; row += 100) {
             long[] time = testSpeed(row, col, ratio, gold, mine);

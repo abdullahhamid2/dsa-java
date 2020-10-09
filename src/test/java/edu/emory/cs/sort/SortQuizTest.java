@@ -8,6 +8,7 @@ public class SortQuizTest extends SortTest {
     public void testRobustness() {
       //  testRobustness(new ShellSortQuiz<>());
        testRobustness(new RadixSortQuiz());
+        //testRobustness(new MSDRadixSort());
     }
 
     public void testRuntime() {
