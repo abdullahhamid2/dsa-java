@@ -90,8 +90,10 @@ private T[] temp;
             }
             temp[temp.length - 1] = count[count.length - 1];
             count = new int[temp.length];
-            for (int i = 0; i < temp.length; i++) {
+            int i = 0;
+            while(i < temp.length) {
                 count[i] = temp[i];
+                i++;
             }
             merge(array, count);
         }
