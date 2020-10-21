@@ -19,8 +19,8 @@ public class TrieQuiz extends Trie<Integer> {
                 substr=substr+input.charAt(j);
                 if (this.contains(substr)) {
                     int newId = this.get(substr);
-                    Entity e = new Entity(i,j+1,newId);
-                    Entities.add(e);
+                    Entity New = new Entity(i,j+1,newId);
+                    Entities.add(New);
                 }
             }
         }
