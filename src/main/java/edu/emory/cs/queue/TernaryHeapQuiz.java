@@ -7,6 +7,7 @@ import java.util.List;
 
 public class TernaryHeapQuiz<T extends Comparable<T>> extends AbstractPriorityQueue<T> {
     private final List<T> keys;
+    private int size;
 
 
     public TernaryHeapQuiz() {
@@ -17,7 +18,14 @@ public class TernaryHeapQuiz<T extends Comparable<T>> extends AbstractPriorityQu
         super(priority);
         keys = new ArrayList<>();
         keys.add(null);
+        size = 0;
     }
+
+    @Override
+    public int size() {
+        return size;
+    }
+
     private int compare(int i1, int i2) {
         return priority.compare(keys.get(i1), keys.get(i2));
     }
@@ -25,9 +33,10 @@ public class TernaryHeapQuiz<T extends Comparable<T>> extends AbstractPriorityQu
     @Override
     public void add(T key) {
         keys.add(key);
-        swim(size());
+        swim(++size);
     }
-//    private void swim(int k) // intended to identify parent method and swap if child is bigger than parent
+
+    //    private void swim(int k) // intended to identify parent method and swap if child is bigger than parent
 //    {
 //        while (1 < k && compare(((k-1)/3), (k)) < 0)
 //        {
@@ -35,51 +44,30 @@ public class TernaryHeapQuiz<T extends Comparable<T>> extends AbstractPriorityQu
 //            k -= 1; k /= 3;
 //        }
 //    }
-    private void swim(int k){
-            if(k%3==0) //center node
-    {
-        for (;1<=k ; k=k/3){
-            int parentIndex = k/3;
-            int childIndex = k;
-            if(parentIndex < 1) parentIndex = 1;
-
-            if(compare(parentIndex, childIndex) < 0) {
-                Collections.swap(keys, parentIndex, childIndex);
+    private void swim(int k) {
+        if (k == 2 && compare((k - 1), (k)) < 0) {
+            Collections.swap(keys, k - 1, k);
+            return;
+        }
+        while (k > 2 && compare(((k + 1) / 3), (k)) < 0) {
+            Collections.swap(keys, (k + 1) / 3, k);
+            k = (k + 1) / 3;
+            if (k == 2 && compare((k - 1), (k)) < 0) {
+                Collections.swap(keys, k - 1, k);
+                break;
             }
         }
-    }
-    else if((k-1)%3==0) //right node
-        {
-            for (; 1<k; k=(k-1)/3){
-                int parentIndex = (k-1)/3;
-                int childIndex = k;
-                if(parentIndex < 1) parentIndex = 1;
-                if(compare(parentIndex, childIndex) < 0) {
-                    Collections.swap(keys, parentIndex, childIndex);
-                }
-            }
-        }
-    else if((k+1) % 3==0) { //left node
-        for(; 1<k; k=(k+1)/3){
-            int parentIndex = (k+1)/3;
-            int childIndex = k;
-            if(parentIndex < 1) parentIndex = 1;
-            if(compare(parentIndex, childIndex) < 0) {
-                Collections.swap(keys, parentIndex, childIndex);
-            }
-        }
-    }
     }
 
     @Override
     public T remove() {
-        if (isEmpty()) return null;
-        Collections.swap(keys, 1, size());
-        T max = keys.remove(size());
-        sink();
+        Collections.swap(keys, 1, size);
+        T max = keys.remove(size--);
+        sink(1);
         return max;
     }
-//    private void sink(int k)
+
+    //    private void sink(int k)
 //    {
 //        for (int i=k/3; i<=size(); k=i,i*=3)
 //        {
@@ -90,32 +78,14 @@ public class TernaryHeapQuiz<T extends Comparable<T>> extends AbstractPriorityQu
 //            Collections.swap(keys, k, i);
 //        }
 //    }
-    private void sink(){
-                for (int k = 1, i = 2; i <= size()-1;k=i,i*=3) {
-                    int Max = i;
-                    if((i+1)<=size() && compare((i), (i+1)) < 0) {
-                        if ((i+2)<=size() && compare((i + 1), i + 2) < 0) {
-                            Max = i + 2;
-                        } else {
-                            Max = i + 1;
-                        }
-                    }
-                    else if((i+2)<=size() && compare((i), (i+2)) < 0){
-                            Max = i + 2;
-                        }
-                        else{
-                            Max = i;
-                        }
-            if (compare((k), (Max)) >= 0) {
-                break;
-            }
-            Collections.swap(keys, k, Max);
+    private void sink(int k) {
+        int largest;
+        for (int i = k + 1; i <= size; k = largest, i = (largest * 3) - 1) {
+            largest = i;
+            if (i < size && (compare((i), (i + 1)) < 0)) largest = i + 1;
+            if (i < (size - 1) && (compare((i + 1), (i + 2)) < 0)) largest = i + 2;
+            if (compare((k), (largest)) >= 0) break;
+            Collections.swap(keys, k, largest);
         }
-    }
-
-    @Override
-    public int size() {
-        // TODO: to be updated
-        return keys.size()-1;
     }
 }
